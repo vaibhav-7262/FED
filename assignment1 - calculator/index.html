@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+</head>
+<body>
+    <script>
+
+        document.body.style.cssText = "height: 100vh; display: flex; flex-flow: column; justify-content: center; align-items:center;";
+const display = document.createElement('div');
+display.style.cssText = 'grid-column: span 4; text-align: center; padding: 10px; border: 1px solid #ccc; border-radius: 5px;';
+document.body.appendChild(display);
+
+const gridContainer = document.createElement('div');
+gridContainer.style.cssText = 'display: grid; grid-template-columns: repeat(4, 1fr); grid-gap: 5px; padding: 10px; max-width: 300px; margin: 0 auto;';
+document.body.appendChild(gridContainer);
+
+const buttons = ['7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', 'C', '0', '=', '+'];
+buttons.forEach(buttonText => {
+    const button = document.createElement('button');
+    button.textContent = buttonText;
+    button.style.cssText = 'padding: 10px; font-size: 1.2em; cursor: pointer;';
+    gridContainer.appendChild(button);
+});
+
+// Event listener for buttons
+document.querySelectorAll('button').forEach(button => {
+    button.addEventListener('click', () => {
+        const buttonValue = button.textContent;
+
+        if (buttonValue === '=') {
+            display.textContent = eval(display.textContent);
+        } else if (buttonValue === 'C') {
+            display.textContent = '';
+        } else {
+            display.textContent += buttonValue;
+        }
+    });
+});
+
+// Event listener for keyboard input
+document.addEventListener('keydown', event => {
+    const key = event.key;
+    const validKeys = /[0-9+\-*/.=]|Enter|Backspace|Delete/;
+
+    if (validKeys.test(key)) {
+        event.preventDefault();
+
+        if (key === 'Enter') {
+            display.textContent = eval(display.textContent);
+        } else if (key === 'Backspace' || key === 'Delete') {
+            display.textContent = display.textContent.slice(0, -1);
+        } else {
+            display.textContent += key;
+        }
+    }
+});
+
+    </script>
+</body>
+</html>
